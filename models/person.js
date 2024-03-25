@@ -6,7 +6,7 @@ const url = process.env.REACT_APP_MONGODB_URI
 
 console.log('connecting to', url)
 mongoose.connect(url)
-.then(result => {
+  .then(result => {
     console.log('connected to MongoDB')
   })
   .catch((error) => {
@@ -15,30 +15,30 @@ mongoose.connect(url)
 
 
 const personSchema = new mongoose.Schema({
-    name: {
-      type: String,
-      minlength: 3,
-      required: true,
-      unique: true
-    },
-    number: {
-      type: String,
-      minlength: 8,
-      validate: {
-        validator: v => {
-          return /\d{2,4}-\d+/.test(v) ;
-        },
-        message:'Phonenumber must start with 2 or 3 numbers'
+  name: {
+    type: String,
+    minlength: 3,
+    required: true,
+    unique: true
+  },
+  number: {
+    type: String,
+    minlength: 8,
+    validate: {
+      validator: v => {
+        return /\d{2,4}-\d+/.test(v)
       },
-      required: true
-}})
+      message:'Phonenumber must start with 2 or 3 numbers'
+    },
+    required: true
+  } })
 
 personSchema.set('toJSON', {
-    transform: (document, returnedObject) => {
-      returnedObject.id = returnedObject._id.toString()
-      delete returnedObject._id
-      delete returnedObject.__v
-    }
-  })
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
+  }
+})
 
 module.exports = mongoose.model('Person', personSchema, 'persons')
